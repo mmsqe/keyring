@@ -6,11 +6,11 @@ package keyring
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"syscall"
 	"testing"
 )
 
@@ -34,7 +34,7 @@ func setup(t *testing.T) (*passKeyring, func(t *testing.T)) {
 	}
 
 	// the default temp directory can't be used because gpg-agent complains with "socket name too long"
-	tmpdir, err := ioutil.TempDir("/tmp", "keyring-pass-test-*")
+	tmpdir, err := os.MkdirTemp("/tmp", "keyring-pass-test-*")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -224,7 +224,7 @@ func TestPassKeyringKeysWithSymlink(t *testing.T) {
 	}
 
 	s := filepath.Join(t.TempDir(), "newsymlink")
-	err := os.Symlink(k.dir, s)
+	err := syscall.Symlink(k.dir, s)
 	if err != nil {
 		t.Fatal(err)
 	}
