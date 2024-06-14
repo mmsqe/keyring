@@ -26,7 +26,7 @@ func init() {
 			cfg.ServiceName = "secret-service"
 		}
 		if cfg.LibSecretCollectionName == "" {
-			cfg.LibSecretCollectionName = cfg.ServiceName
+			cfg.LibSecretCollectionName = "session"
 		}
 
 		service, err := libsecret.NewService()
